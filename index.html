@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tuan Chau & Ngoc Hanh - Wedding Invitation</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ==================== DESIGN SYSTEM & VARIABLES ==================== */
+        :root {
+            --bg-main: #FAFAFA;
+            --bg-secondary: #FFF0F5;
+            --accent: #900020; /* Burgundy */
+            --text-main: #333333;
+            --text-light: #666666;
+            
+            --font-script: 'Great Vibes', cursive;
+            --font-serif: 'Playfair Display', serif;
+            --font-body: 'Montserrat', sans-serif;
+        }
+
+        /* ==================== BASE & LAYOUT ==================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Mobile-First Container, Centered on PC */
+        .app-container {
+            width: 100%;
+            max-width: 480px; /* Optimized for vertical mobile screens */
+            background-color: var(--bg-main);
+            box-shadow: 0 0 30px rgba(0,0,0,0.3);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        @media (max-width: 480px) {
+            body { background: var(--bg-main); display: block; }
+            .app-container { box-shadow: none; max-width: 100%; }
+        }
+
+        img { max-width: 100%; display: block; }
+        
+        .section-padding { padding: 4rem 1.5rem; }
+        .text-center { text-align: center; }
+        .text-accent { color: var(--accent); }
+        .font-script { font-family: var(--font-script); }
+        .font-serif { font-family: var(--font-serif); }
+        
+        .bg-secondary { background-color: var(--bg-secondary); }
+
+        /* ==================== ANIMATIONS ==================== */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1.5s ease-out, transform 1.5s ease-out;
+            will-change: opacity, transform;
+        }
+        
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .img-wrapper {
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Slow Zoom triggered by class */
+        .slow-zoom {
+            transform: scale(1);
+            will-change: transform;
+        }
+        
+        .is-visible .slow-zoom {
+            animation: ultraSlowZoom 10s ease-out forwards;
+        }
+
+        @keyframes ultraSlowZoom {
+            from { transform: scale(1); }
+            to { transform: scale(1.05); }
+        }
+
+        /* ==================== COMPONENTS ==================== */
+
+        /* 1. Hero Section */
+        .hero {
+            position: relative;
+            height: 100vh;
+            min-height: 650px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden;
+        }
+        .hero-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 30%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.4), transparent);
+            z-index: 2;
+        }
+        .hero-top-text {
+            position: relative;
+            z-index: 3;
+            margin-top: 8vh;
+            font-size: 2.5rem;
+            color: #FFFFFF;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        .hero-bottom {
+            position: absolute;
+            bottom: 0; left: 0; width: 100%;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .arch-cutout {
+            width: 100%;
+            height: 120px;
+            background-color: var(--bg-main);
+            border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 15px;
+            transform: translateY(1px); /* Avoids 1px gap rendering issue */
+        }
+        .hero-bow { color: var(--accent); font-size: 1.5rem; margin-bottom: 10px; }
+        .hero-wedding {
+            font-size: 2.8rem;
+            letter-spacing: 4px;
+            color: transparent;
+            -webkit-text-stroke: 1px var(--accent);
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        /* 2. Intro Section */
+        .polaroid {
+            background: #FFFFFF;
+            padding: 10px 10px 40px 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+            margin: 2rem auto;
+            max-width: 300px;
+            transform: rotate(-3deg);
+        }
+
+        /* 3. Family Info */
+        .family-card {
+            border: 1px solid var(--accent);
+            padding: 2.5rem 1rem 1.5rem;
+            position: relative;
+            margin: 3rem 1.5rem;
+            text-align: center;
+        }
+        .family-title {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-main);
+            padding: 0 15px;
+            font-size: 2rem;
+            white-space: nowrap;
+        }
+        .family-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .family-role { font-size: 0.8rem; text-transform: uppercase; color: var(--accent); letter-spacing: 1px; margin-bottom: 5px; }
+
+        /* 4. Profiles */
+        .profile-section { padding: 2rem 1.5rem; }
+        .profile-block {
+            position: relative;
+            margin-bottom: 4rem;
+            display: flex;
+            flex-direction: column;
+        }
+        .profile-block.bride { align-items: flex-end; text-align: right; }
+        .profile-img-wrap {
+            width: 75%;
+            aspect-ratio: 3/4;
+            border-radius: 8px;
+            z-index: 2;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        .profile-huge-text {
+            position: absolute;
+            bottom: -20px;
+            font-size: 4.5rem;
+            color: var(--accent);
+            opacity: 0.15;
+            z-index: 1;
+            line-height: 1;
+            font-weight: 300;
+        }
+        .profile-block.groom .profile-huge-text { right: -10px; }
+        .profile-block.bride .profile-huge-text { left: -10px; }
+        .profile-details { z-index: 3; margin-top: 1rem; width: 90%; }
+        
+        /* 5. Save The Date */
+        .std-arch {
+            width: 240px;
+            height: 320px;
+            margin: 0 auto 2rem;
+            border-radius: 120px 120px 0 0;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .std-typography {
+            position: relative;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+
+        /* 6. Time & Address */
+        .ta-block { margin-bottom: 2.5rem; }
+        .ta-title { font-size: 1.5rem; letter-spacing: 2px; margin-bottom: 10px; }
+        .photo-stack { position: relative; height: 350px; margin-top: 2rem; }
+        .photo-stack .img-wrapper { position: absolute; width: 60%; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .photo-1 { top: 0; left: 0; z-index: 2; }
+        .photo-2 { bottom: 0; right: 0; z-index: 1; }
+
+        /* 7. Location */
+        .pattern-bg {
+            background-image: 
+                linear-gradient(45deg, rgba(144,0,32,0.03) 25%, transparent 25%, transparent 75%, rgba(144,0,32,0.03) 75%, rgba(144,0,32,0.03)),
+                linear-gradient(45deg, rgba(144,0,32,0.03) 25%, transparent 25%, transparent 75%, rgba(144,0,32,0.03) 75%, rgba(144,0,32,0.03));
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+        }
+        .btn-solid {
+            display: inline-block;
+            background: var(--accent);
+            color: #FFFFFF;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            margin: 1.5rem 0;
+            border: none;
+            font-family: inherit;
+        }
+
+        /* 8. Countdown */
+        .cd-container { display: flex; justify-content: center; gap: 10px; margin-top: 2rem; }
+        .cd-box {
+            background: #FFFFFF;
+            width: 70px; height: 75px;
+            border-radius: 12px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .cd-num { font-size: 1.8rem; color: var(--accent); font-family: var(--font-serif); line-height: 1.2; }
+        .cd-label { font-size: 0.7rem; text-transform: uppercase; color: var(--text-light); }
+
+        /* 9. Timeline */
+        .timeline-list { position: relative; margin-top: 2rem; text-align: left; padding-left: 20px; }
+        .timeline-list::before {
+            content: ''; position: absolute; left: 26px; top: 0; bottom: 0;
+            width: 1px; background: rgba(144,0,32,0.3);
+        }
+        .tl-item { position: relative; padding-left: 30px; margin-bottom: 1.5rem; }
+        .tl-item::before {
+            content: ''; position: absolute; left: 2px; top: 15px;
+            width: 8px; height: 8px; background: var(--accent); border-radius: 50%;
+        }
+        .tl-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+
+        /* 10. Dress Code */
+        .color-palette { display: flex; justify-content: center; gap: 15px; margin-top: 1.5rem; }
+        .color-dot { width: 45px; height: 45px; border-radius: 50%; box-shadow: 0 3px 6px rgba(0,0,0,0.1); }
+        .dot-red { background: #900020; }
+        .dot-pink { background: #FFC0CB; }
+        .dot-orange { background: #FFA500; }
+        .dot-white { background: #FFFFFF; border: 1px solid #EAEAEA; }
+
+        /* 11. RSVP Form */
+        .rsvp-form { text-align: left; margin-top: 2rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-label { display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: 0.9rem; }
+        .form-control {
+            width: 100%; padding: 12px;
+            border: 1px solid #DDDDDD;
+            border-radius: 8px;
+            font-family: inherit;
+            background: #FFFFFF;
+        }
+        .radio-wrap { display: flex; flex-direction: column; gap: 8px; }
+        .radio-wrap label { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; }
+
+        /* 12. Thank You & Gifting */
+        .qr-placeholder {
+            width: 200px; height: 200px;
+            background: #EEEEEE;
+            margin: 1.5rem auto;
+            border-radius: 12px;
+            border: 1px dashed #CCCCCC;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+
+        <!-- 1. HERO SECTION -->
+        <section class="hero">
+            <img src="./images/TNV09567.jpg" alt="Hero Background" class="hero-bg slow-zoom">
+            <div class="hero-overlay"></div>
+            <h1 class="hero-top-text font-script fade-in-up">We're getting married!</h1>
+            
+            <div class="hero-bottom">
+                <div class="arch-cutout">
+                    <i class="fa-solid fa-ribbon hero-bow fade-in-up"></i>
+                    <div class="hero-wedding font-serif fade-in-up">WEDDING</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. INTRO SECTION -->
+        <section class="section-padding text-center">
+            <h2 class="font-script text-accent fade-in-up" style="font-size: 3rem; line-height: 1.2;">Tuan Chau<br>&<br>Ngoc Hanh</h2>
+            <div class="fade-in-up" style="margin: 2rem 0; font-size: 0.95rem;">
+                <p>Love is not about how many days,</p>
+                <p>months, or years you have been together.</p>
+                <p>Love is about how much you love each other</p>
+                <p>every single day. We are absolutely thrilled</p>
+                <p>to invite you to share in our joy</p>
+                <p>as we begin our new life together.</p>
+            </div>
+            <div class="font-serif text-accent fade-in-up" style="font-size: 1.5rem; letter-spacing: 8px;">L.O.V.E</div>
+            
+            <div class="polaroid fade-in-up">
+                <div class="img-wrapper">
+                    <img src="https://picsum.photos/600/800?random=2" alt="Polaroid Couple" class="slow-zoom">
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. FAMILY INFO -->
+        <section class="fade-in-up">
+            <div class="family-card">
+                <div class="family-title font-script text-accent">We got married</div>
+                
+                <div class="family-grid font-serif">
+                    <div>
+                        <div class="family-role">Groom's Family</div>
+                        <p>Mr. John Doe</p>
+                        <p>Mrs. Jane Doe</p>
+                    </div>
+                    <div>
+                        <div class="family-role">Bride's Family</div>
+                        <p>Mr. Richard Roe</p>
+                        <p>Mrs. Mary Roe</p>
+                    </div>
+                </div>
+                
+                <div style="border-top: 1px solid #EEE; padding-top: 1.5rem; margin-top: 1rem; font-size: 0.9rem;">
+                    <p class="font-serif text-accent" style="font-size: 1.2rem; margin-bottom: 5px;">CORDIALLY INVITE YOU TO</p>
+                    <p>the celebration of our marriage.</p>
+                    <p>Taking place at 09:00 AM.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. PROFILES -->
+        <section class="profile-section">
+            <!-- Groom -->
+            <div class="profile-block groom fade-in-up">
+                <div class="profile-huge-text font-serif">GROOM</div>
+                <div class="profile-img-wrap img-wrapper">
+                    <img src="https://picsum.photos/600/800?random=3" alt="Groom" class="slow-zoom" style="height: 100%; object-fit: cover;">
+                </div>
+                <div class="profile-details text-left">
+                    <h3 class="font-serif text-accent" style="font-size: 1.8rem;">Tuan Chau</h3>
+                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">"You are my today and all of my tomorrows. I cannot wait to start this beautiful journey with my best friend."</p>
+                </div>
+            </div>
+
+            <!-- Bride -->
+            <div class="profile-block bride fade-in-up">
+                <div class="profile-huge-text font-serif">BRIDE</div>
+                <div class="profile-img-wrap img-wrapper">
+                    <img src="https://picsum.photos/600/800?random=4" alt="Bride" class="slow-zoom" style="height: 100%; object-fit: cover;">
+                </div>
+                <div class="profile-details">
+                    <h3 class="font-serif text-accent" style="font-size: 1.8rem;">Ngoc Hạnh</h3>
+                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">"In all the world, there is no heart for me like yours. In all the world, there is no love for you like mine."</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. SAVE THE DATE -->
+        <section class="section-padding text-center fade-in-up">
+            <div class="img-wrapper std-arch">
+                <img src="https://picsum.photos/600/800?random=5" alt="Save the date" class="slow-zoom" style="height: 100%; object-fit: cover;">
+            </div>
+            
+            <div class="std-typography">
+                <span class="font-serif text-accent" style="font-size: 3rem; display: block; line-height: 0.8;">SAVE</span>
+                <span class="font-script text-accent" style="font-size: 2.5rem; display: block; margin-left: 60px;">the</span>
+                <span class="font-serif text-accent" style="font-size: 3.5rem; display: block; line-height: 0.8;">DATE</span>
+            </div>
+            
+            <div style="margin-top: 1.5rem;">
+                <i class="fa-solid fa-ribbon hero-bow"></i>
+                <p class="font-serif" style="font-style: italic; font-size: 0.95rem;">"Together is a beautiful place to be."</p>
+            </div>
+        </section>
+
+        <!-- 6. TIME & ADDRESS -->
+        <section class="section-padding fade-in-up">
+            <h2 class="font-script text-accent text-center" style="font-size: 3rem; margin-bottom: 2rem;">Welcome</h2>
+            
+            <div class="ta-block text-center">
+                <h3 class="font-serif text-accent ta-title">TIME</h3>
+                <p class="font-serif" style="font-size: 1.1rem;">Thursday, June 18th, 2026<br>Starts at 09:00 AM</p>
+            </div>
+            
+            <div class="ta-block text-center">
+                <h3 class="font-serif text-accent ta-title">ADDRESS</h3>
+                <p class="font-serif" style="font-size: 1.1rem; font-weight: 500;">Grand Da Nang Palace</p>
+                <p style="font-size: 0.9rem; color: var(--text-light);">123 Beachfront Road, Son Tra District<br>Da Nang, Vietnam</p>
+            </div>
+
+            <div class="photo-stack">
+                <div class="img-wrapper photo-1 fade-in-up">
+                    <img src="https://picsum.photos/500/700?random=6" alt="Detail 1" class="slow-zoom">
+                </div>
+                <div class="img-wrapper photo-2 fade-in-up" style="transition-delay: 0.3s;">
+                    <img src="https://picsum.photos/500/700?random=7" alt="Detail 2" class="slow-zoom">
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. LOCATION & 8. COUNTDOWN & 9. TIMELINE (PINK BG) -->
+        <div class="bg-secondary pattern-bg" style="padding-top: 2rem; padding-bottom: 4rem;">
+            
+            <!-- Location -->
+            <section class="section-padding text-center fade-in-up">
+                <h2 class="font-script text-accent" style="font-size: 3.5rem;">Location</h2>
+                <p style="font-size: 0.9rem; margin-top: 1rem;">We have prepared a wonderful space to celebrate our special day with you.</p>
+                
+                <button class="btn-solid" type="button"><i class="fa-solid fa-map-location-dot"></i> Open in Google Maps</button>
+                
+                <div style="margin-top: 1.5rem; font-size: 0.9rem;">
+                    <p style="margin-bottom: 8px;"><i class="fa-solid fa-phone text-accent"></i> Groom's Side: +84 901 234 567</p>
+                    <p><i class="fa-solid fa-phone text-accent"></i> Bride's Side: +84 902 345 678</p>
+                </div>
+            </section>
+
+            <!-- Countdown -->
+            <section class="section-padding text-center fade-in-up">
+                <h2 class="font-serif text-accent" style="font-size: 2rem; letter-spacing: 1px;">Countdown</h2>
+                <div class="cd-container">
+                    <div class="cd-box"><span class="cd-num" id="cd-days">00</span><span class="cd-label">Days</span></div>
+                    <div class="cd-box"><span class="cd-num" id="cd-hours">00</span><span class="cd-label">Hours</span></div>
+                    <div class="cd-box"><span class="cd-num" id="cd-mins">00</span><span class="cd-label">Mins</span></div>
+                    <div class="cd-box"><span class="cd-num" id="cd-secs">00</span><span class="cd-label">Secs</span></div>
+                </div>
+            </section>
+
+            <!-- Timeline -->
+            <section class="section-padding fade-in-up">
+                <h2 class="font-serif text-accent text-center" style="font-size: 2rem; letter-spacing: 1px;">Timeline</h2>
+                
+                <div class="timeline-list font-serif">
+                    <div class="tl-item">
+                        <div class="tl-card">
+                            <h4 class="text-accent" style="font-size: 1.2rem;">09:00 AM</h4>
+                            <p style="font-size: 0.95rem;">Welcome Guests & Photos</p>
+                        </div>
+                    </div>
+                    <div class="tl-item">
+                        <div class="tl-card">
+                            <h4 class="text-accent" style="font-size: 1.2rem;">10:00 AM</h4>
+                            <p style="font-size: 0.95rem;">Wedding Ceremony</p>
+                        </div>
+                    </div>
+                    <div class="tl-item">
+                        <div class="tl-card">
+                            <h4 class="text-accent" style="font-size: 1.2rem;">11:30 AM</h4>
+                            <p style="font-size: 0.95rem;">Lunch Reception & Party</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- 10. DRESS CODE -->
+        <section class="section-padding text-center fade-in-up">
+            <h2 class="font-serif text-accent" style="font-size: 2rem; letter-spacing: 1px;">Dress Code</h2>
+            <p style="font-size: 0.9rem; margin-top: 1rem;">To help make our photo memories cohesive and beautiful, we kindly request our guests to wear the following colors:</p>
+            <div class="color-palette">
+                <div class="color-dot dot-red"></div>
+                <div class="color-dot dot-pink"></div>
+                <div class="color-dot dot-orange"></div>
+                <div class="color-dot dot-white"></div>
+            </div>
+        </section>
+
+        <!-- 11. RSVP FORM -->
+        <section class="section-padding fade-in-up" style="background-color: #FFFFFF;">
+            <h2 class="font-serif text-accent text-center" style="font-size: 2.5rem; letter-spacing: 1px;">RSVP</h2>
+            <p class="text-center" style="font-size: 0.9rem; color: var(--text-light);">Please respond by May 18th, 2026.</p>
+            
+            <form class="rsvp-form" id="rsvpForm">
+                <div class="form-group">
+                    <label class="form-label">Will you attend?</label>
+                    <div class="radio-wrap">
+                        <label><input type="radio" name="attendance" value="yes" checked> Joyfully Accept</label>
+                        <label><input type="radio" name="attendance" value="no"> Regretfully Decline</label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Which side are you a guest of?</label>
+                    <div class="radio-wrap">
+                        <label><input type="radio" name="side" value="groom" checked> Groom's Guest</label>
+                        <label><input type="radio" name="side" value="bride"> Bride's Guest</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" class="form-control" placeholder="e.g., Emily Carter" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Number of Guests</label>
+                    <select class="form-control">
+                        <option value="1">1 Person (Just me)</option>
+                        <option value="2">2 People</option>
+                        <option value="3">3 People</option>
+                        <option value="4">4+ People</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Message to the Couple</label>
+                    <textarea class="form-control" rows="4" placeholder="Leave a sweet note..."></textarea>
+                </div>
+
+                <button type="submit" class="btn-solid" style="width: 100%; font-size: 1.1rem; padding: 15px;">Submit RSVP</button>
+            </form>
+        </section>
+
+        <!-- 12. THANK YOU & GIFTING -->
+        <section class="section-padding text-center fade-in-up" style="padding-bottom: 6rem;">
+            <h2 class="font-serif text-accent" style="font-size: 3.5rem; letter-spacing: 2px;">THANKS</h2>
+            <p style="margin: 1rem 0 3rem; font-size: 0.95rem;">We are so incredibly thankful for your love and support. We can't wait to celebrate with you!</p>
+            
+            <h3 class="font-script text-accent" style="font-size: 2.5rem;">Send a Gift?</h3>
+            <p style="font-size: 0.85rem; color: var(--text-light); margin-top: 0.5rem;">Your presence is present enough, but if you wish to give a gift, we've provided our details below.</p>
+            
+            <div class="img-wrapper qr-placeholder">
+                <img src="https://picsum.photos/200/200?random=8" alt="QR Code" class="slow-zoom">
+            </div>
+            
+            <div style="font-size: 1rem; line-height: 1.8;">
+                <p><strong>Account Name:</strong> TUAN CHAU</p>
+                <p><strong>Bank Name:</strong> Universal Romance Bank</p>
+                <p class="font-serif text-accent" style="font-size: 1.2rem; font-weight: 500;">987-654-321-000</p>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- ==================== JAVASCRIPT ==================== -->
+    <script>
+        // Use an IIFE to encapsulate scope and prevent global variable leakage
+        (() => {
+            // 1. INTERSECTION OBSERVER FOR ANIMATIONS
+            const setupAnimations = () => {
+                const animatedElements = document.querySelectorAll('.fade-in-up');
+                
+                const observerOptions = {
+                    root: null,
+                    rootMargin: '0px 0px -50px 0px',
+                    threshold: 0.15
+                };
+
+                const elementObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible');
+                            observer.unobserve(entry.target); 
+                        }
+                    });
+                }, observerOptions);
+
+                animatedElements.forEach(el => elementObserver.observe(el));
+            };
+
+            // 2. COUNTDOWN LOGIC
+            const setupCountdown = () => {
+                const targetDate = new Date('June 18, 2026 00:00:00').getTime();
+                const domDays = document.getElementById('cd-days');
+                const domHours = document.getElementById('cd-hours');
+                const domMins = document.getElementById('cd-mins');
+                const domSecs = document.getElementById('cd-secs');
+
+                const updateTimer = () => {
+                    const now = new Date().getTime();
+                    const diff = targetDate - now;
+
+                    if (diff <= 0) {
+                        domDays.textContent = '00';
+                        domHours.textContent = '00';
+                        domMins.textContent = '00';
+                        domSecs.textContent = '00';
+                        return;
+                    }
+
+                    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                    const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+                    domDays.textContent = d < 10 ? '0' + d : d;
+                    domHours.textContent = h < 10 ? '0' + h : h;
+                    domMins.textContent = m < 10 ? '0' + m : m;
+                    domSecs.textContent = s < 10 ? '0' + s : s;
+                };
+
+                updateTimer(); // Initial call
+                setInterval(updateTimer, 1000);
+            };
+
+            // 3. FORM HANDLER (Prevent default submission reload)
+            const setupForm = () => {
+                const form = document.getElementById('rsvpForm');
+                if (form) {
+                    form.addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        alert('Thank you for your RSVP!');
+                        form.reset();
+                    });
+                }
+            };
+
+            // Initialize all scripts when DOM is ready
+            document.addEventListener('DOMContentLoaded', () => {
+                setupAnimations();
+                setupCountdown();
+                setupForm();
+            });
+            
+        })();
+    </script>
+</body>
+</html>
