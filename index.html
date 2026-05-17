@@ -1,16 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tuan Chau & Ngoc Hanh - Wedding Invitation</title>
+    <title>Chanh Tin & Như Huyen - Wedding Invitation</title>
     
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Great+Vibes&family=Montserrat:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
     
-    <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
@@ -23,6 +21,7 @@
             --text-light: #666666;
             
             --font-script: 'Great Vibes', cursive;
+            --font-dancing: 'Dancing Script', cursive; /* Biến font mới */
             --font-serif: 'Playfair Display', serif;
             --font-body: 'Montserrat', sans-serif;
         }
@@ -34,6 +33,26 @@
             box-sizing: border-box;
         }
 
+        /* Ẩn thanh cuộn cho toàn bộ trang web */
+        html, body {
+            scrollbar-width: none; /* Cho Firefox */
+            -ms-overflow-style: none; /* Cho IE và Edge */
+        }
+
+        html::-webkit-scrollbar, 
+        body::-webkit-scrollbar {
+            display: none; /* Cho Chrome, Safari và Opera */
+        }
+
+        /* Đảm bảo app-container không tự sinh thanh cuộn riêng */
+        .app-container {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .app-container::-webkit-scrollbar {
+            display: none;
+        }
+
         body {
             background-color: var(--bg-main);
             color: var(--text-main);
@@ -43,10 +62,9 @@
             justify-content: center;
         }
 
-        /* Mobile-First Container, Centered on PC */
         .app-container {
             width: 100%;
-            max-width: 480px; /* Optimized for vertical mobile screens */
+            max-width: 480px; 
             background-color: var(--bg-main);
             box-shadow: 0 0 30px rgba(0,0,0,0.3);
             overflow-x: hidden;
@@ -65,6 +83,7 @@
         .text-accent { color: var(--accent); }
         .font-script { font-family: var(--font-script); }
         .font-serif { font-family: var(--font-serif); }
+        .font-dancing { font-family: var(--font-dancing); } /* Class font mới */
         
         .bg-secondary { background-color: var(--bg-secondary); }
 
@@ -86,7 +105,6 @@
             position: relative;
         }
 
-        /* Slow Zoom triggered by class */
         .slow-zoom {
             transform: scale(1);
             will-change: transform;
@@ -101,9 +119,78 @@
             to { transform: scale(1.05); }
         }
 
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        /* Hiệu ứng tương tác cực mượt cho nút RSVP */
+        #rsvpForm button[type="submit"] {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
+        #rsvpForm button[type="submit"]:hover {
+            background-color: #6a0018 !important; /* Đổi màu Burgundy đậm hơn một chút */
+            box-shadow: 0 8px 20px rgba(144,0,32,0.3) !important; /* Bóng đổ lan rộng ra tạo cảm giác nút nổi lên */
+            transform: translateY(-1px);
+        }
+
+        #rsvpForm button[type="submit"]:active {
+            transform: translateY(2px) !important; /* Nút lún xuống 2px khi bấm vào */
+            box-shadow: 0 2px 5px rgba(144,0,32,0.15) !important; /* Thu nhỏ bóng đổ tạo cảm giác chạm sát nền */
+        }
+
+        /* Custom CSS cho khu vực lời chúc chạy góc phải */
+        #wishes-marquee-container {
+            /* Làm mờ nhẹ nhàng để không gây rối mắt, khi dí tay/chuột vào sẽ rõ lên */
+            opacity: 0.4 !important;
+            pointer-events: auto !important; /* Cho phép tương tác rà chuột */
+        }
+        #wishes-marquee-container:hover {
+            opacity: 0.95 !important;
+        }
+
+        .wish-item-toast {
+            font-size: 0.82rem;
+            color: #444444;
+            line-height: 1.4;
+            border-left: 2.5px solid var(--accent);
+            padding-left: 6px;
+            animation: fadeInToast 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeInToast {
+            from { opacity: 0; transform: translateX(10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Thiết lập góc xoay mặc định và khi đổi lớp cho Photo Stack */
+        .photo-stack .photo-1.active {
+            z-index: 3 !important;
+            transform: translate(0, 0) rotate(-4deg) scale(1.03) !important;
+        }
+        .photo-stack .photo-1:not(.active) {
+            z-index: 1 !important;
+            transform: translate(15px, 20px) rotate(2deg) scale(0.95) !important;
+        }
+
+        .photo-stack .photo-2.active {
+            z-index: 3 !important;
+            transform: translate(0, 0) rotate(4deg) scale(1.03) !important;
+        }
+        .photo-stack .photo-2:not(.active) {
+            z-index: 1 !important;
+            transform: translate(-15px, -20px) rotate(-2deg) scale(0.95) !important;
+        }
+
+        .btn-map:hover {
+            background: var(--accent) !important;
+            color: #ffffff !important;
+        }
+
         /* ==================== COMPONENTS ==================== */
 
-        /* 1. Hero Section */
         .hero {
             position: relative;
             height: 100vh;
@@ -150,7 +237,7 @@
             flex-direction: column;
             align-items: center;
             padding-top: 15px;
-            transform: translateY(1px); /* Avoids 1px gap rendering issue */
+            transform: translateY(1px);
         }
         .hero-bow { color: var(--accent); font-size: 1.5rem; margin-bottom: 10px; }
         .hero-wedding {
@@ -162,7 +249,6 @@
             margin-bottom: 20px;
         }
 
-        /* 2. Intro Section */
         .polaroid {
             background: #FFFFFF;
             padding: 10px 10px 40px 10px;
@@ -172,7 +258,6 @@
             transform: rotate(-3deg);
         }
 
-        /* 3. Family Info */
         .family-card {
             border: 1px solid var(--accent);
             padding: 2.5rem 1rem 1.5rem;
@@ -198,7 +283,6 @@
         }
         .family-role { font-size: 0.8rem; text-transform: uppercase; color: var(--accent); letter-spacing: 1px; margin-bottom: 5px; }
 
-        /* 4. Profiles */
         .profile-section { padding: 2rem 1.5rem; }
         .profile-block {
             position: relative;
@@ -228,7 +312,6 @@
         .profile-block.bride .profile-huge-text { left: -10px; }
         .profile-details { z-index: 3; margin-top: 1rem; width: 90%; }
         
-        /* 5. Save The Date */
         .std-arch {
             width: 240px;
             height: 320px;
@@ -236,13 +319,7 @@
             border-radius: 120px 120px 0 0;
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
-        .std-typography {
-            position: relative;
-            display: inline-block;
-            margin-top: 1rem;
-        }
 
-        /* 6. Time & Address */
         .ta-block { margin-bottom: 2.5rem; }
         .ta-title { font-size: 1.5rem; letter-spacing: 2px; margin-bottom: 10px; }
         .photo-stack { position: relative; height: 350px; margin-top: 2rem; }
@@ -250,28 +327,6 @@
         .photo-1 { top: 0; left: 0; z-index: 2; }
         .photo-2 { bottom: 0; right: 0; z-index: 1; }
 
-        /* 7. Location */
-        .pattern-bg {
-            background-image: 
-                linear-gradient(45deg, rgba(144,0,32,0.03) 25%, transparent 25%, transparent 75%, rgba(144,0,32,0.03) 75%, rgba(144,0,32,0.03)),
-                linear-gradient(45deg, rgba(144,0,32,0.03) 25%, transparent 25%, transparent 75%, rgba(144,0,32,0.03) 75%, rgba(144,0,32,0.03));
-            background-size: 20px 20px;
-            background-position: 0 0, 10px 10px;
-        }
-        .btn-solid {
-            display: inline-block;
-            background: var(--accent);
-            color: #FFFFFF;
-            padding: 12px 30px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 500;
-            margin: 1.5rem 0;
-            border: none;
-            font-family: inherit;
-        }
-
-        /* 8. Countdown */
         .cd-container { display: flex; justify-content: center; gap: 10px; margin-top: 2rem; }
         .cd-box {
             background: #FFFFFF;
@@ -283,49 +338,23 @@
         .cd-num { font-size: 1.8rem; color: var(--accent); font-family: var(--font-serif); line-height: 1.2; }
         .cd-label { font-size: 0.7rem; text-transform: uppercase; color: var(--text-light); }
 
-        /* 9. Timeline */
-        .timeline-list { position: relative; margin-top: 2rem; text-align: left; padding-left: 20px; }
-        .timeline-list::before {
-            content: ''; position: absolute; left: 26px; top: 0; bottom: 0;
-            width: 1px; background: rgba(144,0,32,0.3);
-        }
         .tl-item { position: relative; padding-left: 30px; margin-bottom: 1.5rem; }
-        .tl-item::before {
-            content: ''; position: absolute; left: 2px; top: 15px;
-            width: 8px; height: 8px; background: var(--accent); border-radius: 50%;
-        }
         .tl-card {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
             padding: 15px;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.03);
         }
 
-        /* 10. Dress Code */
-        .color-palette { display: flex; justify-content: center; gap: 15px; margin-top: 1.5rem; }
-        .color-dot { width: 45px; height: 45px; border-radius: 50%; box-shadow: 0 3px 6px rgba(0,0,0,0.1); }
-        .dot-red { background: #900020; }
-        .dot-pink { background: #FFC0CB; }
-        .dot-orange { background: #FFA500; }
-        .dot-white { background: #FFFFFF; border: 1px solid #EAEAEA; }
-
-        /* 11. RSVP Form */
         .rsvp-form { text-align: left; margin-top: 2rem; }
-        .form-group { margin-bottom: 1.5rem; }
-        .form-label { display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: 0.9rem; }
         .form-control {
             width: 100%; padding: 12px;
             border: 1px solid #DDDDDD;
             border-radius: 8px;
             font-family: inherit;
-            background: #FFFFFF;
         }
-        .radio-wrap { display: flex; flex-direction: column; gap: 8px; }
-        .radio-wrap label { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; }
 
-        /* 12. Thank You & Gifting */
         .qr-placeholder {
             width: 200px; height: 200px;
             background: #EEEEEE;
@@ -339,9 +368,8 @@
 
     <div class="app-container">
 
-        <!-- 1. HERO SECTION -->
         <section class="hero">
-            <img src="./images/TNV09567.jpg" alt="Hero Background" class="hero-bg slow-zoom">
+            <img src="./Picture/TNV09567.jpg" alt="Hero Background" class="hero-bg slow-zoom">
             <div class="hero-overlay"></div>
             <h1 class="hero-top-text font-script fade-in-up">We're getting married!</h1>
             
@@ -353,336 +381,477 @@
             </div>
         </section>
 
-        <!-- 2. INTRO SECTION -->
         <section class="section-padding text-center">
-            <h2 class="font-script text-accent fade-in-up" style="font-size: 3rem; line-height: 1.2;">Tuan Chau<br>&<br>Ngoc Hanh</h2>
-            <div class="fade-in-up" style="margin: 2rem 0; font-size: 0.95rem;">
-                <p>Love is not about how many days,</p>
-                <p>months, or years you have been together.</p>
-                <p>Love is about how much you love each other</p>
-                <p>every single day. We are absolutely thrilled</p>
-                <p>to invite you to share in our joy</p>
-                <p>as we begin our new life together.</p>
+            <h2 class="font-script text-accent fade-in-up" style="font-size: 3rem; line-height: 1.2;">Chanh Tin<br>&<br>Nhu Huyen</h2>
+            
+            <div class="fade-in-up font-dancing" style="margin: 2.5rem 0; font-size: 1.3rem; line-height: 1.7; color: #444;">
+                <p>Muốn chia sẻ niềm vui này với bạn ngay lúc đầu tiên,</p>
+                <p>trân trọng mời bạn cùng tham dự<br>khoảnh khắc trọng đại trong đời chúng mình.</p>
+                <p style="margin-top: 1rem;">Giữa muôn vàn thay đổi và ngày bận rộn,<br>chúng mình mong được gặp bạn trong ngày đặc biệt này.</p>
+                <p style="margin-top: 1rem;">Không chỉ là một lễ cưới, mà còn là một buổi tiệc,</p>
+                <p>một dịp để cùng những người bạn cũ<br>ngồi lại chuyện trò và sẻ chia hạnh phúc.</p>
             </div>
-            <div class="font-serif text-accent fade-in-up" style="font-size: 1.5rem; letter-spacing: 8px;">L.O.V.E</div>
+            
+            <div class="font-dancing text-accent fade-in-up" style="font-size: 1.5rem; letter-spacing: 8px;">L.O.V.E</div>
             
             <div class="polaroid fade-in-up">
                 <div class="img-wrapper">
-                    <img src="https://picsum.photos/600/800?random=2" alt="Polaroid Couple" class="slow-zoom">
+                    <img src="./Picture/TNV09772.jpg" alt="Polaroid Couple" class="slow-zoom">
                 </div>
             </div>
         </section>
 
-        <!-- 3. FAMILY INFO -->
-        <section class="fade-in-up">
-            <div class="family-card">
-                <div class="family-title font-script text-accent">We got married</div>
-                
-                <div class="family-grid font-serif">
-                    <div>
-                        <div class="family-role">Groom's Family</div>
-                        <p>Mr. John Doe</p>
-                        <p>Mrs. Jane Doe</p>
-                    </div>
-                    <div>
-                        <div class="family-role">Bride's Family</div>
-                        <p>Mr. Richard Roe</p>
-                        <p>Mrs. Mary Roe</p>
-                    </div>
+        <section class="fade-in-up" style="padding: 2rem 1.5rem;">
+        <div class="family-card" style="border: 1.5px solid var(--accent); padding: 2.5rem 10px 2rem; position: relative; display: flex; flex-direction: column;">
+            
+            <div class="font-script text-accent" style="display: flex; align-items: center; justify-content: center; width: 100%; position: absolute; top: 0; left: 0; transform: translateY(-50%);">
+                <div style="flex: 1; height: 1.5px; background: transparent;"></div> <span style="padding: 0 15px; font-size: 2.5rem; white-space: nowrap; background: var(--bg-main);">We got married</span>
+                <div style="flex: 1; height: 1.5px; background: transparent;"></div> </div>
+            
+            <div class="family-grid" style="display: flex; justify-content: space-between; gap: 10px; margin-bottom: 1.5rem; margin-top: 1rem;">
+                <div style="flex: 1; text-align: center; font-size: 0.9rem; white-space: nowrap;">
+                    <p style="margin-bottom: 3px;">Ông: Lê Thanh Tài</p>
+                    <p>Bà: Nguyễn Thị Sang</p>
                 </div>
-                
-                <div style="border-top: 1px solid #EEE; padding-top: 1.5rem; margin-top: 1rem; font-size: 0.9rem;">
-                    <p class="font-serif text-accent" style="font-size: 1.2rem; margin-bottom: 5px;">CORDIALLY INVITE YOU TO</p>
-                    <p>the celebration of our marriage.</p>
-                    <p>Taking place at 09:00 AM.</p>
+                <div style="flex: 1; text-align: center; font-size: 0.9rem; white-space: nowrap;">
+                    <p style="margin-bottom: 3px;">Ông: Phan Quốc Hương</p>
+                    <p>Bà: Cù Thị Kim Mai</p>
                 </div>
             </div>
+            
+            <hr style="border: none; border-top: 1px solid rgba(144,0,32,0.1); margin-bottom: 1.5rem; width: 70%; margin-left: auto; margin-right: auto;">
+
+            <div class="text-center">
+                <h2 class="font-serif text-accent" style="font-size: 1.6rem; letter-spacing: 1px; margin-bottom: 10px; font-weight: normal;">TRÂN TRỌNG KÍNH MỜI</h2>
+                <p style="font-weight: 500;">Bạn</p>
+                <p style="font-size: 0.8rem; color: #444; margin-bottom: 5px;">(Tới dự Lễ Thành Hôn của hai con chúng tôi)</p>
+                <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin: 1.2rem 0;">
+                    <span class="font-dancing text-accent" style="font-size: 2rem; white-space: nowrap;">Chánh Tín</span>
+                    
+                    <div style="display: flex; align-items: center; gap: 4px;">
+                        <i class="fa-solid fa-heart" style="color: #900020; font-size: 1.3rem; animation: pulse 1.5s infinite;"></i>
+                    </div>
+                    
+                    <span class="font-dancing text-accent" style="font-size: 2rem; white-space: nowrap;">Như Huyền</span>
+                </div>
+                <div style="color: #333; margin-bottom: 15px;">
+                    <p style="font-size: 1.1rem;">Tổ chức vào lúc <strong style="font-family: var(--font-serif);">10 giờ 30</strong></p>
+                    <p style="font-size: 1rem; margin-top: 3px;">Thứ Sáu, ngày 05 tháng 06 năm 2026</p>
+                    <p style="font-size: 0.85rem; color: #888; font-style: italic;">(Nhằm ngày 20 tháng 04 năm Bính Ngọ)</p>
+                </div>
+                
+                <p class="font-dancing" style="font-size: 0.9rem; color: #777; margin-top: 1.25rem; line-height: 1.4;">
+                    Sự hiện diện của Quý khách<br>là niềm vinh dự của gia đình chúng tôi!
+                </p>
+            </div>
+        </div>
         </section>
 
-        <!-- 4. PROFILES -->
         <section class="profile-section">
-            <!-- Groom -->
             <div class="profile-block groom fade-in-up">
                 <div class="profile-huge-text font-serif">GROOM</div>
                 <div class="profile-img-wrap img-wrapper">
-                    <img src="https://picsum.photos/600/800?random=3" alt="Groom" class="slow-zoom" style="height: 100%; object-fit: cover;">
+                    <img src="./Picture/TNV00078.jpg" alt="Groom" class="slow-zoom" style="height: 100%; object-fit: cover;">
                 </div>
                 <div class="profile-details text-left">
-                    <h3 class="font-serif text-accent" style="font-size: 1.8rem;">Tuan Chau</h3>
-                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">"You are my today and all of my tomorrows. I cannot wait to start this beautiful journey with my best friend."</p>
+                    <h3 class="font-serif text-accent" style="font-size: 1.8rem;">Chánh Tín</h3>
+                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">"Cảm ơn em vì đã đến, để anh biết rằng hạnh phúc vẫn luôn tồn tại."</p>
                 </div>
             </div>
 
-            <!-- Bride -->
             <div class="profile-block bride fade-in-up">
                 <div class="profile-huge-text font-serif">BRIDE</div>
                 <div class="profile-img-wrap img-wrapper">
-                    <img src="https://picsum.photos/600/800?random=4" alt="Bride" class="slow-zoom" style="height: 100%; object-fit: cover;">
+                    <img src="./Picture/TNV09388.jpg" alt="Bride" class="slow-zoom" style="height: 100%; object-fit: cover;">
                 </div>
                 <div class="profile-details">
-                    <h3 class="font-serif text-accent" style="font-size: 1.8rem;">Ngoc Hạnh</h3>
-                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">"In all the world, there is no heart for me like yours. In all the world, there is no love for you like mine."</p>
+                    <h3 class="font-serif text-accent" style="font-size: 1.8rem;">Như Huyền</h3>
+                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">""Được yêu thương là tuyệt vời nhất, nhưng cùng anh đi đến tận cùng mới là hạnh phúc nhất đời em.""</p>
                 </div>
             </div>
         </section>
 
-        <!-- 5. SAVE THE DATE -->
         <section class="section-padding text-center fade-in-up">
-            <div class="img-wrapper std-arch">
-                <img src="https://picsum.photos/600/800?random=5" alt="Save the date" class="slow-zoom" style="height: 100%; object-fit: cover;">
-            </div>
-            
-            <div class="std-typography">
-                <span class="font-serif text-accent" style="font-size: 3rem; display: block; line-height: 0.8;">SAVE</span>
-                <span class="font-script text-accent" style="font-size: 2.5rem; display: block; margin-left: 60px;">the</span>
-                <span class="font-serif text-accent" style="font-size: 3.5rem; display: block; line-height: 0.8;">DATE</span>
-            </div>
-            
-            <div style="margin-top: 1.5rem;">
-                <i class="fa-solid fa-ribbon hero-bow"></i>
-                <p class="font-serif" style="font-style: italic; font-size: 0.95rem;">"Together is a beautiful place to be."</p>
-            </div>
+        <div class="img-wrapper std-arch" style="transform: translateX(20px); margin-left: auto; margin-right: auto;">
+            <img src="./Picture/TNV09619.jpg" alt="Save the date" class="slow-zoom" style="height: 100%; width: 100%; object-fit: cover;">
+        </div>
+        
+        <div class="std-typography" style="transform: translateX(20px);">
+            <span class="font-serif text-accent" style="font-size: 3rem; display: block; line-height: 0.8;">SAVE</span>
+            <span class="font-script text-accent" style="font-size: 2.5rem; display: block; margin-left: 60px;">the</span>
+            <span class="font-serif text-accent" style="font-size: 3.5rem; display: block; line-height: 0.8;">DATE</span>
+        </div>
         </section>
 
-        <!-- 6. TIME & ADDRESS -->
-        <section class="section-padding fade-in-up">
-            <h2 class="font-script text-accent text-center" style="font-size: 3rem; margin-bottom: 2rem;">Welcome</h2>
-            
-            <div class="ta-block text-center">
-                <h3 class="font-serif text-accent ta-title">TIME</h3>
-                <p class="font-serif" style="font-size: 1.1rem;">Thursday, June 18th, 2026<br>Starts at 09:00 AM</p>
-            </div>
-            
-            <div class="ta-block text-center">
-                <h3 class="font-serif text-accent ta-title">ADDRESS</h3>
-                <p class="font-serif" style="font-size: 1.1rem; font-weight: 500;">Grand Da Nang Palace</p>
-                <p style="font-size: 0.9rem; color: var(--text-light);">123 Beachfront Road, Son Tra District<br>Da Nang, Vietnam</p>
-            </div>
+        <div class="photo-stack-container" style="position: relative; width: 100%; max-width: 380px; height: 440px; margin: 0.5rem auto 3.5rem auto;">
+            <div class="photo-stack" style="position: relative; width: 100%; height: 100%;">
+                
+                <div class="img-wrapper photo-1 fade-in-up active" onclick="switchPhoto(this)" 
+                     style="position: absolute; width: 70%; height: 310px; left: 5%; top: 5%; z-index: 2; transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; border: 4px solid #ffffff; box-shadow: 0 10px 20px rgba(0,0,0,0.15); border-radius: 8px; overflow: hidden;">
+                    <img src="./Picture/TNV09486.jpg" alt="Detail 1" class="slow-zoom" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                
+                <div class="img-wrapper photo-2 fade-in-up" onclick="switchPhoto(this)" 
+                     style="position: absolute; width: 70%; height: 310px; right: 5%; bottom: 5%; z-index: 1; transform: rotate(4deg); transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; border: 4px solid #ffffff; box-shadow: 0 10px 20px rgba(0,0,0,0.15); border-radius: 8px; overflow: hidden;">
+                    <img src="./Picture/TNV09924.jpg" alt="Detail 2" class="slow-zoom" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
 
-            <div class="photo-stack">
-                <div class="img-wrapper photo-1 fade-in-up">
-                    <img src="https://picsum.photos/500/700?random=6" alt="Detail 1" class="slow-zoom">
-                </div>
-                <div class="img-wrapper photo-2 fade-in-up" style="transition-delay: 0.3s;">
-                    <img src="https://picsum.photos/500/700?random=7" alt="Detail 2" class="slow-zoom">
-                </div>
             </div>
+        </div>
         </section>
 
-        <!-- 7. LOCATION & 8. COUNTDOWN & 9. TIMELINE (PINK BG) -->
         <div class="bg-secondary pattern-bg" style="padding-top: 2rem; padding-bottom: 4rem;">
+            <section class="section-padding text-center fade-in-up" style="padding: 2rem 1.5rem;">
             
-            <!-- Location -->
-            <section class="section-padding text-center fade-in-up">
-                <h2 class="font-script text-accent" style="font-size: 3.5rem;">Location</h2>
-                <p style="font-size: 0.9rem; margin-top: 1rem;">We have prepared a wonderful space to celebrate our special day with you.</p>
+            <div class="venue-card" style="border: 1.5px solid var(--accent); padding: 3rem 1rem 2.5rem; border-radius: 15px; background: #ffffff; box-shadow: 0 10px 30px rgba(0,0,0,0.02);">
                 
-                <button class="btn-solid" type="button"><i class="fa-solid fa-map-location-dot"></i> Open in Google Maps</button>
-                
-                <div style="margin-top: 1.5rem; font-size: 0.9rem;">
-                    <p style="margin-bottom: 8px;"><i class="fa-solid fa-phone text-accent"></i> Groom's Side: +84 901 234 567</p>
-                    <p><i class="fa-solid fa-phone text-accent"></i> Bride's Side: +84 902 345 678</p>
+                <h2 class="font-dancing text-accent" style="font-size: 3rem; margin-bottom: 5px;">
+                    Địa Điểm
+                </h2>
+
+                <div style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 20px; width: 60%; margin-left: auto; margin-right: auto;">
+                    <div style="flex: 1; height: 1px; background: rgba(144,0,32,0.2);"></div>
+                    <i class="fa-solid fa-location-dot" style="color: var(--accent); font-size: 1.1rem;"></i>
+                    <div style="flex: 1; height: 1px; background: rgba(144,0,32,0.2);"></div>
                 </div>
+
+                <div style="color: #333; line-height: 1.6; margin-bottom: 25px;">
+                    <p class="font-serif" style="font-size: 1.3rem; font-weight: 500; color: var(--accent); margin-bottom: 5px;">
+                        Tại: Nhà Văn Hoá
+                    </p>
+                    <p style="font-size: 1.1rem; font-weight: bold; margin-bottom: 5px;">
+                        Tổ Dân Phố Nhuận An
+                    </p>
+                    <p style="font-size: 0.95rem; color: #555; max-width: 320px; margin: 0 auto; font-style: italic;">
+                        Phường Hoài Nhơn Đông - Tỉnh Gia Lai
+                    </p>
+                </div>
+
+                <a href="https://maps.app.goo.gl/VwbaFXJVQCHNcosD8" target="_blank" rel="noopener noreferrer" class="btn-map" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 24px; border: 1px solid var(--accent); background: transparent; color: var(--accent); font-family: var(--font-serif); font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; border-radius: 20px; text-decoration: none; transition: all 0.3s ease;">
+                    <i class="fa-regular fa-map"></i> Xem bản đồ
+                </a>
+
+            </div>
             </section>
 
-            <!-- Countdown -->
-            <section class="section-padding text-center fade-in-up">
-                <h2 class="font-serif text-accent" style="font-size: 2rem; letter-spacing: 1px;">Countdown</h2>
-                <div class="cd-container">
-                    <div class="cd-box"><span class="cd-num" id="cd-days">00</span><span class="cd-label">Days</span></div>
-                    <div class="cd-box"><span class="cd-num" id="cd-hours">00</span><span class="cd-label">Hours</span></div>
-                    <div class="cd-box"><span class="cd-num" id="cd-mins">00</span><span class="cd-label">Mins</span></div>
-                    <div class="cd-box"><span class="cd-num" id="cd-secs">00</span><span class="cd-label">Secs</span></div>
-                </div>
-            </section>
-
-            <!-- Timeline -->
-            <section class="section-padding fade-in-up">
-                <h2 class="font-serif text-accent text-center" style="font-size: 2rem; letter-spacing: 1px;">Timeline</h2>
+            <section class="section-padding text-center fade-in-up" style="padding: 2rem 1.5rem;">
+            <div style="background: #fff5f7; border-radius: 30px; padding: 2.5rem 1rem; box-shadow: 0 10px 25px rgba(0,0,0,0.03); position: relative; overflow: hidden;">
                 
-                <div class="timeline-list font-serif">
-                    <div class="tl-item">
-                        <div class="tl-card">
-                            <h4 class="text-accent" style="font-size: 1.2rem;">09:00 AM</h4>
-                            <p style="font-size: 0.95rem;">Welcome Guests & Photos</p>
-                        </div>
+                <div style="position: absolute; top: 15px; left: 20px; opacity: 0.6; color: #ff8fa3;"><i class="fa-solid fa-heart"></i></div>
+                <div style="position: absolute; top: 30px; right: 25px; opacity: 0.5; color: #ff8fa3; transform: rotate(15deg);"><i class="fa-solid fa-ring"></i></div>
+
+                <h2 class="font-dancing text-accent" style="font-size: 3rem; margin-bottom: 5px;">Đếm Ngược</h2>
+                <p style="font-size: 0.95rem; color: #666; margin-bottom: 25px; letter-spacing: 1px;">Đến ngày trọng đại của chúng mình</p>
+
+                <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 25px;">
+                    <div style="background: #ffffff; width: 75px; padding: 12px 5px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.02);">
+                        <div style="font-size: 0.75rem; font-weight: bold; color: var(--accent); margin-bottom: 5px;">Ngày</div>
+                        <span id="cd-days" class="font-serif" style="font-size: 1.8rem; color: #333; display: block; line-height: 1;">00</span>
                     </div>
-                    <div class="tl-item">
-                        <div class="tl-card">
-                            <h4 class="text-accent" style="font-size: 1.2rem;">10:00 AM</h4>
-                            <p style="font-size: 0.95rem;">Wedding Ceremony</p>
-                        </div>
+                    <div style="background: #ffffff; width: 75px; padding: 12px 5px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.02);">
+                        <div style="font-size: 0.75rem; font-weight: bold; color: var(--accent); margin-bottom: 5px;">Giờ</div>
+                        <span id="cd-hours" class="font-serif" style="font-size: 1.8rem; color: #333; display: block; line-height: 1;">00</span>
                     </div>
-                    <div class="tl-item">
-                        <div class="tl-card">
-                            <h4 class="text-accent" style="font-size: 1.2rem;">11:30 AM</h4>
-                            <p style="font-size: 0.95rem;">Lunch Reception & Party</p>
-                        </div>
+                    <div style="background: #ffffff; width: 75px; padding: 12px 5px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.02);">
+                        <div style="font-size: 0.75rem; font-weight: bold; color: var(--accent); margin-bottom: 5px;">Phút</div>
+                        <span id="cd-mins" class="font-serif" style="font-size: 1.8rem; color: #333; display: block; line-height: 1;">00</span>
+                    </div>
+                    <div style="background: #ffffff; width: 75px; padding: 12px 5px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.02);">
+                        <div style="font-size: 0.75rem; font-weight: bold; color: var(--accent); margin-bottom: 5px;">Giây</div>
+                        <span id="cd-secs" class="font-serif" style="font-size: 1.8rem; color: #333; display: block; line-height: 1;">00</span>
                     </div>
                 </div>
+
+                <div style="margin-top: 20px; color: #555;">
+                    <div style="font-size: 1.1rem; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                        <span style="opacity: 0.5;">🌸</span> Thứ Sáu, 05/06/2026 <span style="opacity: 0.5;">🌸</span>
+                    </div>
+                    <div style="font-size: 0.95rem; margin-top: 5px; opacity: 0.8;">
+                        10:30 AM - Nhà Văn Hoá Tổ Dân Phố Nhuận An
+                    </div>
+                </div>
+
+            </div>
             </section>
         </div>
-
-        <!-- 10. DRESS CODE -->
-        <section class="section-padding text-center fade-in-up">
-            <h2 class="font-serif text-accent" style="font-size: 2rem; letter-spacing: 1px;">Dress Code</h2>
-            <p style="font-size: 0.9rem; margin-top: 1rem;">To help make our photo memories cohesive and beautiful, we kindly request our guests to wear the following colors:</p>
-            <div class="color-palette">
-                <div class="color-dot dot-red"></div>
-                <div class="color-dot dot-pink"></div>
-                <div class="color-dot dot-orange"></div>
-                <div class="color-dot dot-white"></div>
-            </div>
-        </section>
-
-        <!-- 11. RSVP FORM -->
-        <section class="section-padding fade-in-up" style="background-color: #FFFFFF;">
-            <h2 class="font-serif text-accent text-center" style="font-size: 2.5rem; letter-spacing: 1px;">RSVP</h2>
-            <p class="text-center" style="font-size: 0.9rem; color: var(--text-light);">Please respond by May 18th, 2026.</p>
-            
-            <form class="rsvp-form" id="rsvpForm">
-                <div class="form-group">
-                    <label class="form-label">Will you attend?</label>
-                    <div class="radio-wrap">
-                        <label><input type="radio" name="attendance" value="yes" checked> Joyfully Accept</label>
-                        <label><input type="radio" name="attendance" value="no"> Regretfully Decline</label>
-                    </div>
-                </div>
+        <section class="section-padding text-center fade-in-up" style="padding: 2rem 1.5rem;">
+            <div style="background: #fff5f7; border-radius: 30px; padding: 2.5rem 1.5rem; box-shadow: 0 10px 25px rgba(0,0,0,0.03); max-width: 450px; margin: 0 auto; border: 1px solid rgba(144,0,32,0.05);">
                 
-                <div class="form-group">
-                    <label class="form-label">Which side are you a guest of?</label>
-                    <div class="radio-wrap">
-                        <label><input type="radio" name="side" value="groom" checked> Groom's Guest</label>
-                        <label><input type="radio" name="side" value="bride"> Bride's Guest</label>
+                <h2 class="font-dancing text-accent" style="font-size: 3rem; margin-bottom: 5px;">Xác Nhận Tham Dự</h2>
+                <p style="font-size: 0.9rem; color: #666; margin-bottom: 25px; letter-spacing: 0.5px;">Để CTin chuẩn bị đón tiếp chu đáo nhất nhé!</p>
+
+                <form id="rsvpForm" style="text-align: left; display: flex; flex-direction: column; gap: 18px;">
+                    
+                    <div>
+                        <label style="display: block; font-size: 0.9rem; font-weight: 500; color: #444; margin-bottom: 6px;">Ai vậy ta? <span style="color: red;">*</span></label>
+                        <input type="text" id="rsvpName" required placeholder="Nhập tại đây nhé!" 
+                               style="width: 100%; padding: 12px 15px; border: 1px solid #e0e0e0; border-radius: 12px; font-family: inherit; font-size: 0.95rem; outline: none; background: #ffffff; box-sizing: border-box; transition: border 0.3s;"
+                               onfocus="this.style.border='1px solid var(--accent)'" onblur="this.style.border='1px solid #e0e0e0'">
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label class="form-label">Full Name</label>
-                    <input type="text" class="form-control" placeholder="e.g., Emily Carter" required>
-                </div>
+                    <div>
+                        <label style="display: block; font-size: 0.9rem; font-weight: 500; color: #444; margin-bottom: 8px;">Bạn sẽ tham dự chứ? <span style="color: red;">*</span></label>
+                        <div style="display: flex; gap: 15px;">
+                            <label style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; background: #ffffff; padding: 12px; border: 1px solid #e0e0e0; border-radius: 12px; cursor: pointer; font-size: 0.95rem; transition: all 0.3s;">
+                                <input type="radio" name="attendance" value="Có, mình sẽ đến" checked style="accent-color: var(--accent);">
+                                Có, tất nhiên là đến chứ!
+                            </label>
+                            <label style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; background: #ffffff; padding: 12px; border: 1px solid #e0e0e0; border-radius: 12px; cursor: pointer; font-size: 0.95rem; transition: all 0.3s;">
+                                <input type="radio" name="attendance" value="Tiếc quá, mình không đến được" style="accent-color: var(--accent);">
+                                Tiếc quá, hỏng đến được rồi
+                            </label>
+                        </div>
+                    </div>
 
-                <div class="form-group">
-                    <label class="form-label">Number of Guests</label>
-                    <select class="form-control">
-                        <option value="1">1 Person (Just me)</option>
-                        <option value="2">2 People</option>
-                        <option value="3">3 People</option>
-                        <option value="4">4+ People</option>
-                    </select>
-                </div>
+                    <div>
+                        <label style="display: block; font-size: 0.9rem; font-weight: 500; color: #444; margin-bottom: 6px;">Đi bao nhiêu người dị?</label>
+                        <select id="rsvpCount" style="width: 100%; padding: 12px 15px; border: 1px solid #e0e0e0; border-radius: 12px; font-family: inherit; font-size: 0.95rem; outline: none; background: #ffffff; box-sizing: border-box;">
+                            <option value="1">Đi 1 mình nha</option>
+                            <option value="2">Đi 2 người (đi cùng "ai đó")</option>
+                            <option value="3">Tree sâm</option>
+                            <option value="4">Đi cả gia đình / nhóm</option>
+                        </select>
+                    </div>
 
-                <div class="form-group">
-                    <label class="form-label">Message to the Couple</label>
-                    <textarea class="form-control" rows="4" placeholder="Leave a sweet note..."></textarea>
-                </div>
+                    <div>
+                        <label style="display: block; font-size: 0.9rem; font-weight: 500; color: #444; margin-bottom: 6px;">Hãy gửi 1 câu gì đó xem nào</label>
+                        <textarea id="rsvpMessage" rows="3" placeholder="Nhập lời chúc ngọt ngào của bạn tại đây..." 
+                                  style="width: 100%; padding: 12px 15px; border: 1px solid #e0e0e0; border-radius: 12px; font-family: inherit; font-size: 0.95rem; outline: none; background: #ffffff; resize: none; box-sizing: border-box; transition: border 0.3s;"
+                                  onfocus="this.style.border='1px solid var(--accent)'" onblur="this.style.border='1px solid #e0e0e0'"></textarea>
+                    </div>
 
-                <button type="submit" class="btn-solid" style="width: 100%; font-size: 1.1rem; padding: 15px;">Submit RSVP</button>
-            </form>
-        </section>
-
-        <!-- 12. THANK YOU & GIFTING -->
-        <section class="section-padding text-center fade-in-up" style="padding-bottom: 6rem;">
-            <h2 class="font-serif text-accent" style="font-size: 3.5rem; letter-spacing: 2px;">THANKS</h2>
-            <p style="margin: 1rem 0 3rem; font-size: 0.95rem;">We are so incredibly thankful for your love and support. We can't wait to celebrate with you!</p>
-            
-            <h3 class="font-script text-accent" style="font-size: 2.5rem;">Send a Gift?</h3>
-            <p style="font-size: 0.85rem; color: var(--text-light); margin-top: 0.5rem;">Your presence is present enough, but if you wish to give a gift, we've provided our details below.</p>
-            
-            <div class="img-wrapper qr-placeholder">
-                <img src="https://picsum.photos/200/200?random=8" alt="QR Code" class="slow-zoom">
-            </div>
-            
-            <div style="font-size: 1rem; line-height: 1.8;">
-                <p><strong>Account Name:</strong> TUAN CHAU</p>
-                <p><strong>Bank Name:</strong> Universal Romance Bank</p>
-                <p class="font-serif text-accent" style="font-size: 1.2rem; font-weight: 500;">987-654-321-000</p>
+                    <button type="submit" style="width: 100%; background: var(--accent); color: #ffffff; border: none; padding: 14px; border-radius: 15px; font-size: 1rem; font-weight: 600; letter-spacing: 0.5px; cursor: pointer; margin-top: 10px; box-shadow: 0 5px 15px rgba(144,0,32,0.15); transition: all 0.3s ease;">
+                        <i class="fa-solid fa-paper-plane" style="margin-right: 8px;"></i> GỬI XÁC NHẬN
+                    </button>
+                    
+                </form>
             </div>
         </section>
 
+        <section class="section-padding text-center fade-in-up" style="padding-bottom: 6rem; position: relative;">
+            
+            <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px;">
+                <div style="height: 1px; width: 30px; background: #ffb6c1;"></div>
+                <i class="fa-solid fa-heart" style="color: #ffcaea; font-size: 0.75rem;"></i>
+                <div style="height: 1px; width: 30px; background: #ffb6c1;"></div>
+            </div>
+
+            <h2 class="font-dancing text-accent" style="font-size: 3rem; margin-bottom: 5px;">Mừng Cưới Sớm?</h2>
+            
+            <p class="font-serif" style="font-size: 1.05rem; color: #555; margin-bottom: 15px;">Đến cô dâu và chú rể</p>
+
+            <div style="height: 1.5px; width: 50px; background: var(--accent); margin: 0 auto 30px auto;"></div>
+
+            <div style="position: relative; display: inline-block; padding: 15px;">
+                <div style="position: absolute; top: 0; left: 0; width: 25px; height: 25px; border-top: 1.5px solid #ffb6c1; border-left: 1.5px solid #ffb6c1;"></div>
+                <div style="position: absolute; top: 0; right: 0; width: 25px; height: 25px; border-top: 1.5px solid #ffb6c1; border-right: 1.5px solid #ffb6c1;"></div>
+                <div style="position: absolute; bottom: 0; left: 0; width: 25px; height: 25px; border-bottom: 1.5px solid #ffb6c1; border-left: 1.5px solid #ffb6c1;"></div>
+                <div style="position: absolute; bottom: 0; right: 0; width: 25px; height: 25px; border-bottom: 1.5px solid #ffb6c1; border-right: 1.5px solid #ffb6c1;"></div>
+
+                <div style="background: #ffffff; padding: 12px; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.06);">
+                    <img src="./Picture/Qrcode.jpg" alt="QR Code" style="width: 180px; height: 180px; object-fit: contain; border-radius: 8px;">
+                </div>
+            </div>
+
+            <div style="margin-top: 25px; color: #333; line-height: 1.7; font-size: 1rem;">
+                <p style="font-weight: 500; font-family: var(--font-body);">HAI ĐỨA</p>
+                <p style="font-family: var(--font-body);">MOMO</p>
+                <p style="font-family: var(--font-body); letter-spacing: 1px;">PSG2601513800000030</p>
+            </div>
+
+            <div style="height: 2px; width: 40px; background: #ffe4e8; margin: 20px auto 0 auto; border-radius: 2px;"></div>
+            
+        </section>
+
+        <div id="wishes-marquee-container" style="position: fixed; bottom: 20px; right: 15px; width: 290px; max-height: 140px; z-index: 9999; pointer-events: none; background: rgba(255, 245, 247, 0.7); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); border-radius: 14px; padding: 10px 14px; border: 1px solid rgba(144, 0, 32, 0.1); box-shadow: 0 6px 20px rgba(0,0,0,0.06); overflow: hidden; transition: opacity 0.3s;">
+            <div id="wishes-track" style="display: flex; flex-direction: column; gap: 10px; transform: translateY(0);"></div>
+        </div>
     </div>
 
-    <!-- ==================== JAVASCRIPT ==================== -->
     <script>
-        // Use an IIFE to encapsulate scope and prevent global variable leakage
         (() => {
-            // 1. INTERSECTION OBSERVER FOR ANIMATIONS
+            // ==================== 1. HIỆU ỨNG XUẤT HIỆN (FADE IN UP) ====================
             const setupAnimations = () => {
-                const animatedElements = document.querySelectorAll('.fade-in-up');
-                
-                const observerOptions = {
-                    root: null,
-                    rootMargin: '0px 0px -50px 0px',
-                    threshold: 0.15
-                };
-
-                const elementObserver = new IntersectionObserver((entries, observer) => {
+                const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
                             entry.target.classList.add('is-visible');
-                            observer.unobserve(entry.target); 
                         }
                     });
-                }, observerOptions);
-
-                animatedElements.forEach(el => elementObserver.observe(el));
+                }, { threshold: 0.15 });
+                document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
             };
 
-            // 2. COUNTDOWN LOGIC
+            // ==================== 2. ĐẾM NGƯỢC (COUNTDOWN) ====================
             const setupCountdown = () => {
-                const targetDate = new Date('June 18, 2026 00:00:00').getTime();
-                const domDays = document.getElementById('cd-days');
-                const domHours = document.getElementById('cd-hours');
-                const domMins = document.getElementById('cd-mins');
-                const domSecs = document.getElementById('cd-secs');
-
-                const updateTimer = () => {
+                const target = new Date('June 5, 2026 10:30:00').getTime();
+                
+                const update = () => {
                     const now = new Date().getTime();
-                    const diff = targetDate - now;
-
+                    const diff = target - now;
+                    
                     if (diff <= 0) {
-                        domDays.textContent = '00';
-                        domHours.textContent = '00';
-                        domMins.textContent = '00';
-                        domSecs.textContent = '00';
+                        document.getElementById('cd-days').textContent = '00';
+                        document.getElementById('cd-hours').textContent = '00';
+                        document.getElementById('cd-mins').textContent = '00';
+                        document.getElementById('cd-secs').textContent = '00';
                         return;
                     }
-
-                    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-                    const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                    const s = Math.floor((diff % (1000 * 60)) / 1000);
-
-                    domDays.textContent = d < 10 ? '0' + d : d;
-                    domHours.textContent = h < 10 ? '0' + h : h;
-                    domMins.textContent = m < 10 ? '0' + m : m;
-                    domSecs.textContent = s < 10 ? '0' + s : s;
+                    
+                    document.getElementById('cd-days').textContent = Math.floor(diff / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+                    document.getElementById('cd-hours').textContent = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+                    document.getElementById('cd-mins').textContent = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+                    document.getElementById('cd-secs').textContent = Math.floor((diff % (1000 * 60)) / 1000).toString().padStart(2, '0');
                 };
-
-                updateTimer(); // Initial call
-                setInterval(updateTimer, 1000);
+                
+                update();
+                setInterval(update, 1000);
             };
 
-            // 3. FORM HANDLER (Prevent default submission reload)
-            const setupForm = () => {
-                const form = document.getElementById('rsvpForm');
-                if (form) {
-                    form.addEventListener('submit', (e) => {
-                        e.preventDefault();
-                        alert('Thank you for your RSVP!');
-                        form.reset();
-                    });
+            // ==================== 3. TỰ ĐỘNG CUỘN TRANG THÔNG MINH ====================
+            let autoScrollRequestId;
+            let isAutoScrolling = false;
+            let restartTimer; 
+            const scrollSpeed = 0.5; 
+            const idleTimeBeforeRestart = 3000; // FIX: Định nghĩa lại biến tránh lỗi Crash Script
+
+            const step = () => {
+                if (!isAutoScrolling) return;
+                window.scrollBy(0, scrollSpeed);
+                
+                if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight - 2) {
+                    isAutoScrolling = false;
+                    return;
+                }
+                autoScrollRequestId = requestAnimationFrame(step);
+            };
+
+            const startAutoScroll = () => {
+                if (!isAutoScrolling) {
+                    isAutoScrolling = true;
+                    autoScrollRequestId = requestAnimationFrame(step);
                 }
             };
 
-            // Initialize all scripts when DOM is ready
+            const stopAutoScroll = () => {
+                isAutoScrolling = false;
+                cancelAnimationFrame(autoScrollRequestId);
+                
+                clearTimeout(restartTimer);
+                restartTimer = setTimeout(() => {
+                    if ((window.innerHeight + window.pageYOffset) < document.body.offsetHeight - 5) {
+                        startAutoScroll();
+                    }
+                }, idleTimeBeforeRestart);
+            };
+
+            // ==================== 4. QUẢN LÝ LỜI CHÚC CHẠY GÓC PHẢI (MARQUEE) ====================
+            const defaultWishes = [
+            
+            ];
+
+            window.initWishesMarquee = () => {
+                const track = document.getElementById('wishes-track');
+                if (!track) return;
+
+                let savedWishes = JSON.parse(localStorage.getItem('wedding_wishes')) || [];
+                let allWishes = [...savedWishes, ...defaultWishes];
+
+                track.innerHTML = '';
+                
+                // Tối ưu: Tạo mảng kép (Gốc + Bản sao) để tạo vòng lặp cuộn không bao giờ đứt đoạn
+                [...allWishes, ...allWishes].forEach(item => {
+                    const wishItem = document.createElement('div');
+                    wishItem.className = 'wish-item-toast';
+                    
+                    let attText = item.att || "Sẽ tham dự";
+                    attText = attText.toLowerCase().includes("không") ? "❌ Không tham dự" : "✅ " + attText;
+
+                    wishItem.innerHTML = `<strong style="color: var(--accent);">${item.name}</strong>: ${item.msg} <span style="color: #777; font-style: italic; font-size: 11px;">(${attText})</span>`;
+                    track.appendChild(wishItem);
+                });
+
+                // Khởi chạy hiệu ứng cuộn dọc bằng Animation Frame chuẩn mượt
+                let currentY = 0;
+                if (window.marqueeIntervalId) cancelAnimationFrame(window.marqueeIntervalId);
+                
+                function scrollWishes() {
+                    currentY -= 0.4; // Tốc độ cuộn chữ (Chỉnh nhỏ hơn để chạy chậm lại)
+                    const halfHeight = track.scrollHeight / 2;
+                    if (Math.abs(currentY) >= halfHeight) currentY = 0; // Reset mượt khi đi hết danh sách gốc
+                    track.style.transform = `translateY(${currentY}px)`;
+                    window.marqueeIntervalId = requestAnimationFrame(scrollWishes);
+                }
+                window.marqueeIntervalId = requestAnimationFrame(scrollWishes);
+            };
+
+            // ==================== 5. KHỞI CHẠY ĐỒNG BỘ KHI TRANG SẴN SÀNG ====================
             document.addEventListener('DOMContentLoaded', () => {
                 setupAnimations();
                 setupCountdown();
-                setupForm();
+                window.initWishesMarquee(); // Khởi tạo chữ chạy đúng 1 lần duy nhất
+                
+                setTimeout(startAutoScroll, 2000);
+
+                const interactEvents = ['wheel', 'touchstart', 'touchmove', 'mousedown', 'keydown'];
+                interactEvents.forEach(event => {
+                    window.addEventListener(event, stopAutoScroll, { passive: true });
+                });
+                
+                // Xử lý nộp form RSVP
+                const rsvpForm = document.getElementById('rsvpForm');
+                if (rsvpForm) {
+                    rsvpForm.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        
+                        const name = document.getElementById('rsvpName').value;
+                        const message = document.getElementById('rsvpMessage').value || "Xác nhận tham gia buổi tiệc!";
+                        const attendanceRadio = document.querySelector('input[name="attendance"]:checked');
+                        const attendance = attendanceRadio ? attendanceRadio.value : "Xác nhận"; 
+                        
+                        const submitBtn = this.querySelector('button[type="submit"]');
+                        const icon = submitBtn.querySelector('i');
+                        
+                        submitBtn.disabled = true;
+                        submitBtn.style.opacity = '0.8';
+                        
+                        if (icon) {
+                            icon.style.transition = 'transform 0.4s ease-in-out, opacity 0.2s';
+                            icon.style.transform = 'translate(30px, -30px) scale(0.7)';
+                            icon.style.opacity = '0';
+                        }
+                        
+                        setTimeout(() => {
+                            let savedWishes = JSON.parse(localStorage.getItem('wedding_wishes')) || [];
+                            savedWishes.unshift({ name: name, msg: message, att: attendance });
+                            localStorage.setItem('wedding_wishes', JSON.stringify(savedWishes));
+                            
+                            window.initWishesMarquee(); // Cập nhật danh sách chạy chữ ngay tắp lự
+                            
+                            alert('🎉 Cảm ơn bạn rất nhiều! Lời chúc của bạn đã được hiển thị trên thiệp cưới.');
+                            
+                            rsvpForm.reset();
+                            submitBtn.disabled = false;
+                            submitBtn.style.opacity = '1';
+                            if (icon) {
+                                icon.style.transform = 'translate(0, 0) scale(1)';
+                                icon.style.opacity = '1';
+                            }
+                        }, 400);
+                    });
+                }
             });
-            
         })();
+
+        // ==================== 6. ALBUM ẢNH ĐẢO LỚP (NGOÀI SCOPE IIFE) ====================
+        function switchPhoto(element) {
+            if (element.classList.contains('active')) return;
+            const container = element.parentElement;
+            const allPhotos = container.querySelectorAll('.img-wrapper');
+            
+            allPhotos.forEach(photo => photo.classList.remove('active'));
+            element.classList.add('active');
+        }
     </script>
 </body>
 </html>
