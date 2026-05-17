@@ -654,9 +654,9 @@
             </div>
 
             <div style="margin-top: 25px; color: #333; line-height: 1.7; font-size: 1rem;">
-                <p style="font-weight: 500; font-family: var(--font-body);">HAI ĐỨA</p>
-                <p style="font-family: var(--font-body);">MOMO</p>
-                <p style="font-family: var(--font-body); letter-spacing: 1px;">PSG2601513800000030</p>
+                <p style="font-weight: 500; font-family: var(--font-body);">TK: HAI ĐỨA</p>
+                <p style="font-family: var(--font-body);">NH: MOMO</p>
+                <p style="font-family: var(--font-body); letter-spacing: 1px;">STK: PSG2601513800000030</p>
             </div>
 
             <div style="height: 2px; width: 40px; background: #ffe4e8; margin: 20px auto 0 auto; border-radius: 2px;"></div>
@@ -670,7 +670,7 @@
 
     <script>
         (() => {
-            // ==================== 1. HIỆU ỨNG XUẤT HIỆN (FADE IN UP) ====================
+            // ==================== 1. QUẢN LÝ HIỆU ỨNG XUẤT HIỆN (FADE IN UP) ====================
             const setupAnimations = () => {
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
@@ -682,14 +682,16 @@
                 document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
             };
 
-            // ==================== 2. ĐẾM NGƯỢC (COUNTDOWN) ====================
+            // ==================== 2. QUẢN LÝ ĐẾM NGƯỢC (COUNTDOWN) - 10:30 AM 05/06/2026 ====================
             const setupCountdown = () => {
+                // Định dạng chuẩn: Tháng Ngày, Năm Giờ:Phút:Giây
                 const target = new Date('June 5, 2026 10:30:00').getTime();
                 
                 const update = () => {
                     const now = new Date().getTime();
                     const diff = target - now;
                     
+                    // Nếu đã qua thời gian cưới thì reset toàn bộ về 00
                     if (diff <= 0) {
                         document.getElementById('cd-days').textContent = '00';
                         document.getElementById('cd-hours').textContent = '00';
@@ -698,27 +700,30 @@
                         return;
                     }
                     
+                    // Tính toán số Ngày, Giờ, Phút, Giây
                     document.getElementById('cd-days').textContent = Math.floor(diff / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
                     document.getElementById('cd-hours').textContent = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
                     document.getElementById('cd-mins').textContent = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
                     document.getElementById('cd-secs').textContent = Math.floor((diff % (1000 * 60)) / 1000).toString().padStart(2, '0');
                 };
                 
-                update();
+                update(); // Chạy ngay lập tức lần đầu để tránh bị delay 1s hiển thị "00"
                 setInterval(update, 1000);
             };
 
-            // ==================== 3. TỰ ĐỘNG CUỘN TRANG THÔNG MINH ====================
+            // ==================== 3. QUẢN LÝ TỰ ĐỘNG CUỘN TRANG THÔNG MINH ====================
             let autoScrollRequestId;
             let isAutoScrolling = false;
             let restartTimer; 
             const scrollSpeed = 0.5; 
-            const idleTimeBeforeRestart = 3000; // FIX: Định nghĩa lại biến tránh lỗi Crash Script
+            // FIX: Đã comment idleTimeBeforeRestart khiến biến chưa định nghĩa
+            const idleTimeBeforeRestart = 3000; // Đã định nghĩa lại biến này tránh lỗi Cash Script
 
             const step = () => {
                 if (!isAutoScrolling) return;
                 window.scrollBy(0, scrollSpeed);
                 
+                // Dừng hẳn nếu chạm đáy trang
                 if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight - 2) {
                     isAutoScrolling = false;
                     return;
@@ -737,84 +742,103 @@
                 isAutoScrolling = false;
                 cancelAnimationFrame(autoScrollRequestId);
                 
+                // Xóa bộ hẹn giờ cũ và tạo bộ hẹn giờ mới để kích hoạt lại sau khi ngừng tương tác
                 clearTimeout(restartTimer);
                 restartTimer = setTimeout(() => {
+                    // Kiểm tra nếu chưa chạm đáy thì mới kích hoạt lại
                     if ((window.innerHeight + window.pageYOffset) < document.body.offsetHeight - 5) {
                         startAutoScroll();
                     }
                 }, idleTimeBeforeRestart);
             };
 
-            // ==================== 4. QUẢN LÝ LỜI CHÚC CHẠY GÓC PHẢI (MARQUEE) ====================
+            // ==================== 4. QUẢN LÝ LỜI CHÚC CHẠY DỌC GÓC PHẢI (MARQUEE) ====================
+            // Đã comment defaultWishes trống. Có thể xóa luôn nếu không cần mồi sẵn.
             const defaultWishes = [
-            
+                
             ];
 
             window.initWishesMarquee = () => {
                 const track = document.getElementById('wishes-track');
                 if (!track) return;
 
+                // Lấy dữ liệu đã lưu
                 let savedWishes = JSON.parse(localStorage.getItem('wedding_wishes')) || [];
-                let allWishes = [...savedWishes, ...defaultWishes];
+                let allWishes = [...savedWishes, ...defaultWishes]; // FIX: Đã gom savedWishes và defaultWishes trống vào mảng
 
+                // Xóa sạch nội dung cũ trước khi nạp mới
                 track.innerHTML = '';
-                
-                // Tối ưu: Tạo mảng kép (Gốc + Bản sao) để tạo vòng lặp cuộn không bao giờ đứt đoạn
+
+                // Render danh sách theo định dạng: Tên người gửi: Lời chúc - Tham dự
+                // TỐI ƯU: Đã clone mảng ảo để tạo vòng lặp cuộn mượt không bị đứt đoạn
                 [...allWishes, ...allWishes].forEach(item => {
                     const wishItem = document.createElement('div');
                     wishItem.className = 'wish-item-toast';
-                    
+
+                    // Xử lý chuỗi hiển thị trạng thái tham dự gọn gàng
                     let attText = item.att || "Sẽ tham dự";
                     attText = attText.toLowerCase().includes("không") ? "❌ Không tham dự" : "✅ " + attText;
 
-                    wishItem.innerHTML = `<strong style="color: var(--accent);">${item.name}</strong>: ${item.msg} <span style="color: #777; font-style: italic; font-size: 11px;">(${attText})</span>`;
+                    // Đổ dữ liệu theo format yêu cầu: Tên: Lời chúc - Tham dự
+                    wishItem.innerHTML = `<strong style="color: var(--accent);">${item.name}</strong>: ${item.msg} <span style="color: #666; font-style: italic; font-size: 11px;">(${attText})</span>`;
+                    
                     track.appendChild(wishItem);
                 });
 
-                // Khởi chạy hiệu ứng cuộn dọc bằng Animation Frame chuẩn mượt
+                // TỐI ƯU: Thiết lập logic tự động cuộn chữ liên tục chuẩn mượt
                 let currentY = 0;
                 if (window.marqueeIntervalId) cancelAnimationFrame(window.marqueeIntervalId);
                 
                 function scrollWishes() {
-                    currentY -= 0.4; // Tốc độ cuộn chữ (Chỉnh nhỏ hơn để chạy chậm lại)
+                    currentY -= 0.4; // Tốc độ cuộn (Chỉnh số nhỏ hơn để chạy chậm lại)
                     const halfHeight = track.scrollHeight / 2;
-                    if (Math.abs(currentY) >= halfHeight) currentY = 0; // Reset mượt khi đi hết danh sách gốc
+                    if (Math.abs(currentY) >= halfHeight) currentY = 0; // Reset về 0 không delay
                     track.style.transform = `translateY(${currentY}px)`;
                     window.marqueeIntervalId = requestAnimationFrame(scrollWishes);
                 }
+                
+                // Bắt đầu cuộn chữ góc phải
                 window.marqueeIntervalId = requestAnimationFrame(scrollWishes);
             };
 
             // ==================== 5. KHỞI CHẠY ĐỒNG BỘ KHI TRANG SẴN SÀNG ====================
             document.addEventListener('DOMContentLoaded', () => {
+                // Sắp xếp lại luồng khởi chạy cho ngăn nắp, mượt mà
                 setupAnimations();
                 setupCountdown();
-                window.initWishesMarquee(); // Khởi tạo chữ chạy đúng 1 lần duy nhất
+                window.initWishesMarquee(); // Cập nhật đúng một lần
                 
+                // Bắt đầu tự cuộn trang sau 2 giây
                 setTimeout(startAutoScroll, 2000);
 
+                // Lắng nghe tương tác tạm dừng tự cuộn trang
                 const interactEvents = ['wheel', 'touchstart', 'touchmove', 'mousedown', 'keydown'];
                 interactEvents.forEach(event => {
                     window.addEventListener(event, stopAutoScroll, { passive: true });
                 });
                 
-                // Xử lý nộp form RSVP
+                // RSVP form handler
                 const rsvpForm = document.getElementById('rsvpForm');
                 if (rsvpForm) {
                     rsvpForm.addEventListener('submit', function(e) {
                         e.preventDefault();
                         
+                        // Lấy dữ liệu từ ô nhập liệu chuẩn
                         const name = document.getElementById('rsvpName').value;
                         const message = document.getElementById('rsvpMessage').value || "Xác nhận tham gia buổi tiệc!";
+                        
+                        // Lấy trạng thái tham dự và lưu vào máy
                         const attendanceRadio = document.querySelector('input[name="attendance"]:checked');
                         const attendance = attendanceRadio ? attendanceRadio.value : "Xác nhận"; 
                         
                         const submitBtn = this.querySelector('button[type="submit"]');
                         const icon = submitBtn.querySelector('i');
                         
+                        // Khóa nút để tránh bấm liên tục
                         submitBtn.disabled = true;
                         submitBtn.style.opacity = '0.8';
                         
+                        // Hiệu ứng icon máy bay bay đi
                         if (icon) {
                             icon.style.transition = 'transform 0.4s ease-in-out, opacity 0.2s';
                             icon.style.transform = 'translate(30px, -30px) scale(0.7)';
@@ -823,14 +847,22 @@
                         
                         setTimeout(() => {
                             let savedWishes = JSON.parse(localStorage.getItem('wedding_wishes')) || [];
+                            // LƯU THÊM BIẾN ATTENDANCE VÀO ĐỐI TƯỢNG
                             savedWishes.unshift({ name: name, msg: message, att: attendance });
                             localStorage.setItem('wedding_wishes', JSON.stringify(savedWishes));
                             
-                            window.initWishesMarquee(); // Cập nhật danh sách chạy chữ ngay tắp lự
+                            // Cập nhật lại danh sách chạy chữ góc phải ngay lập tức
+                            if (typeof window.initWishesMarquee === 'function') {
+                                window.initWishesMarquee();
+                            } else if (typeof initWishesMarquee === 'function') {
+                                initWishesMarquee();
+                            }
                             
+                            // Báo thành công
                             alert('🎉 Cảm ơn bạn rất nhiều! Lời chúc của bạn đã được hiển thị trên thiệp cưới.');
                             
-                            rsvpForm.reset();
+                            // Reset form và khôi phục nút
+                            document.getElementById('rsvpForm').reset();
                             submitBtn.disabled = false;
                             submitBtn.style.opacity = '1';
                             if (icon) {
@@ -843,13 +875,18 @@
             });
         })();
 
-        // ==================== 6. ALBUM ẢNH ĐẢO LỚP (NGOÀI SCOPE IIFE) ====================
+        // ==================== 6. ALBUM ẢNH ĐẢO LỚP TƯƠNG TÁC (NGOÀI SCOPE IIFE) ====================
         function switchPhoto(element) {
+            // Nếu ảnh được bấm đã nổi sẵn rồi thì không cần xử lý
             if (element.classList.contains('active')) return;
+            
+            // Tìm tấm ảnh còn lại trong khung stack
             const container = element.parentElement;
             const allPhotos = container.querySelectorAll('.img-wrapper');
             
             allPhotos.forEach(photo => photo.classList.remove('active'));
+            
+            // Nổi tấm ảnh vừa được click lên
             element.classList.add('active');
         }
     </script>
